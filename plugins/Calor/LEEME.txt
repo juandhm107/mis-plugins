@@ -1,0 +1,50 @@
+CALOR - distorsión multietapa
+=============================
+
+INSTALAR EN LOGIC PRO (Mac)
+
+1. Abre el Finder. En el menú de arriba: Ir > Ir a la carpeta...
+   Pega esto y pulsa Enter:
+
+   ~/Library/Audio/Plug-Ins/Components
+
+2. Arrastra "Calor.component" a esa carpeta.
+   (El archivo Calor.vst3 es para otros programas; en Logic no lo necesitas.)
+
+3. Abre la app Terminal (Cmd + Espacio, escribe "Terminal"), pega esta línea y pulsa Enter:
+
+   xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/Calor.component
+
+4. Cierra Logic si estaba abierto y vuelve a abrirlo.
+
+5. En una pista: Audio FX > Audio Units > JDHM Audio > Calor
+
+
+SI LOGIC NO LO MUESTRA
+Logic Pro > Configuración > Gestor de plug-ins. Busca "Calor",
+marca la casilla y pulsa "Reset & Rescan Selection".
+
+
+CÓMO SE USA
+
+- Círculo grande: arrastra el punto.
+    Derecha = más saturación (más caliente). Izquierda = más suave.
+    Arriba = más brillante. Abajo = más oscuro.
+    Doble clic = volver al centro.
+
+- Etapas 1, 2 y 3: cada una es un tipo de distorsión.
+    Tubo, Cinta, Diodo, Fuzz, Pliegue, Rectificador, Bits, Recorte.
+    Saturación = cuánto se ensucia. Mezcla = cuánto se oye esa etapa. Tono = oscuro/brillante.
+
+- Modo Serie: el sonido pasa por las 3 etapas, una tras otra.
+  Modo Bandas: la etapa 1 trabaja solo los graves, la 2 los medios y la 3 los agudos.
+  "Cruce graves" y "Cruce agudos" deciden dónde se separan las bandas.
+
+- LFO: hace que la saturación suba y baje sola (velocidad y profundidad).
+- Envolvente: la saturación sigue el volumen de lo que tocas
+  (hacia la derecha = más distorsión en los golpes, hacia la izquierda = menos).
+- Anchura: estrecha o abre el estéreo.
+- Mezcla: mezcla la señal original con la procesada (ideal para buses).
+- NIVEL AUTO: iguala el volumen para que compares de forma justa.
+
+En la lista de arriba hay presets para empezar.

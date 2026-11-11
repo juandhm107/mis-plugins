@@ -1,0 +1,65 @@
+name: Compilar plugins para Mac
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    runs-on: macos-14
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+
+      - name: Compilar Calor (AU + VST3)
+        run: cmake --build build --config Release --target Calor_AU Calor_VST3 -j 4
+
+      - name: Firmar (ad-hoc) y validar con auval
+        run: |
+          ART=build/plugins/Calor/Calor_artefacts/Release
+          codesign --force --deep --sign - "$ART/AU/Calor.component"
+          codesign --force --deep --sign - "$ART/VST3/Calor.vst3"
+
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R "$ART/AU/Calor.component" ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar 2>/dev/null || true
+          sleep 2
+          auval -v aufx Clor Jdhm
+
+      - name: Empaquetar
+        run: |
+          ART=build/plugins/Calor/Calor_artefacts/Release
+          mkdir -p dist/Calor
+          cp -R "$ART/AU/Calor.component" dist/Calor/
+          cp -R "$ART/VST3/Calor.vst3" dist/Calor/
+          cp plugins/Calor/LEEME.txt dist/Calor/
+          cd dist
+          ditto -c -k --keepParent Calor Calor-Mac.zip
+
+      - name: Guardar como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: Calor-Mac
+          path: dist/Calor-Mac.zip
+
+      - name: Publicar descarga (Releases)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="calor-build-${{ github.run_number }}"
+          gh release create "$TAG" dist/Calor-Mac.zip \
+            --title "Calor para Mac (versión ${{ github.run_number }})" \
+            --notes "Descarga **Calor-Mac.zip**, descomprímelo y sigue las instrucciones de LEEME.txt." \
+            --latest
