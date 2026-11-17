@@ -17,3 +17,4 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(JUCE)
 
 add_subdirectory(plugins/Calor)
+add_subdirectory(plugins/Dembow)

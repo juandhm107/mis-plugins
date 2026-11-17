@@ -11,7 +11,7 @@ permissions:
 jobs:
   mac:
     runs-on: macos-latest
-    timeout-minutes: 60
+    timeout-minutes: 90
 
     steps:
       - uses: actions/checkout@v4
@@ -23,43 +23,47 @@ jobs:
             -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" \
             -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
 
-      - name: Compilar Calor (AU + VST3)
-        run: cmake --build build --config Release --target Calor_AU Calor_VST3 -j 4
+      - name: Compilar Calor y Dembow (AU + VST3)
+        run: cmake --build build --config Release --target Calor_AU Calor_VST3 Dembow_AU Dembow_VST3 -j 4
 
       - name: Firmar (ad-hoc) y validar con auval
         run: |
-          ART=build/plugins/Calor/Calor_artefacts/Release
-          codesign --force --deep --sign - "$ART/AU/Calor.component"
-          codesign --force --deep --sign - "$ART/VST3/Calor.vst3"
-
           mkdir -p ~/Library/Audio/Plug-Ins/Components
-          cp -R "$ART/AU/Calor.component" ~/Library/Audio/Plug-Ins/Components/
+          for P in Calor Dembow; do
+            ART=build/plugins/$P/${P}_artefacts/Release
+            codesign --force --deep --sign - "$ART/AU/$P.component"
+            codesign --force --deep --sign - "$ART/VST3/$P.vst3"
+            cp -R "$ART/AU/$P.component" ~/Library/Audio/Plug-Ins/Components/
+          done
           killall -9 AudioComponentRegistrar 2>/dev/null || true
           sleep 2
           auval -v aufx Clor Jdhm
+          auval -v aumu Dmbw Jdhm
 
       - name: Empaquetar
         run: |
-          ART=build/plugins/Calor/Calor_artefacts/Release
-          mkdir -p dist/Calor
-          cp -R "$ART/AU/Calor.component" dist/Calor/
-          cp -R "$ART/VST3/Calor.vst3" dist/Calor/
-          cp plugins/Calor/LEEME.txt dist/Calor/
-          cd dist
-          ditto -c -k --keepParent Calor Calor-Mac.zip
+          mkdir -p dist
+          for P in Calor Dembow; do
+            ART=build/plugins/$P/${P}_artefacts/Release
+            mkdir -p dist/$P
+            cp -R "$ART/AU/$P.component" dist/$P/
+            cp -R "$ART/VST3/$P.vst3" dist/$P/
+            cp plugins/$P/LEEME.txt dist/$P/
+            (cd dist && ditto -c -k --keepParent $P $P-Mac.zip)
+          done
 
       - name: Guardar como artefacto
         uses: actions/upload-artifact@v4
         with:
-          name: Calor-Mac
-          path: dist/Calor-Mac.zip
+          name: Plugins-Mac
+          path: dist/*.zip
 
       - name: Publicar descarga (Releases)
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="calor-build-${{ github.run_number }}"
-          gh release create "$TAG" dist/Calor-Mac.zip \
-            --title "Calor para Mac (versión ${{ github.run_number }})" \
-            --notes "Descarga **Calor-Mac.zip**, descomprímelo y sigue las instrucciones de LEEME.txt." \
+          TAG="plugins-build-${{ github.run_number }}"
+          gh release create "$TAG" dist/Calor-Mac.zip dist/Dembow-Mac.zip \
+            --title "Plugins para Mac (versión ${{ github.run_number }})" \
+            --notes "**Dembow-Mac.zip**: sintetizador de reggaetón (instrumento). **Calor-Mac.zip**: distorsión. Descomprime y sigue las instrucciones de LEEME.txt." \
             --latest

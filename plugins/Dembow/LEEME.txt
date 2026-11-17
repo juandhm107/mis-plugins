@@ -1,0 +1,72 @@
+DEMBOW - sintetizador de reggaetón
+==================================
+
+Instrumento con 46 sonidos de reggaetón (old school y moderno):
+plucks, bajos y 808, leads, brass, pads y teclados.
+
+
+INSTALAR EN LOGIC PRO (Mac)
+
+1. Abre el Finder. En el menú de arriba: Ir > Ir a la carpeta...
+   Pega esto y pulsa Enter:
+
+   ~/Library/Audio/Plug-Ins/Components
+
+2. Arrastra "Dembow.component" a esa carpeta.
+
+3. Abre la app Terminal (Cmd + Espacio, escribe "Terminal"), pega esta línea y pulsa Enter:
+
+   xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/Dembow.component
+
+4. Cierra Logic si estaba abierto y vuelve a abrirlo.
+
+5. Crea una pista de "Instrumento de software". En la ranura de Instrumento:
+   AU Instruments > JDHM Audio > Dembow
+
+OTROS PROGRAMAS (FL Studio, Ableton, etc.)
+   Copia "Dembow.vst3" en  ~/Library/Audio/Plug-Ins/VST3
+   y ejecuta en Terminal:
+   xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/VST3/Dembow.vst3
+
+
+SI LOGIC NO LO MUESTRA
+Logic Pro > Configuración > Gestor de plug-ins. Busca "Dembow",
+marca la casilla y pulsa "Reset & Rescan Selection".
+
+
+CÓMO SE USA (de izquierda a derecha)
+
+1. ELIGE EL TIPO DE SONIDO (columna izquierda)
+   Botones PLUCKS, BAJOS, LEADS, BRASS, PADS, TECLADOS.
+   Debajo puedes filtrar: Todos / Old school / Moderno.
+   Haz clic en un sonido de la lista. Las flechas < > de arriba
+   pasan al sonido anterior o siguiente.
+   El teclado de abajo sirve para probar sin controlador MIDI.
+
+2. ENVOLVENTE DE VOLUMEN (rosada)
+   Ataque      = cuánto tarda en sonar fuerte (corto = golpe, largo = entra suave)
+   Decaimiento = cuánto tarda en bajar después del golpe
+   Sostén      = el volumen mientras mantienes la tecla (en 0 = sonido corto tipo pluck)
+   Liberación  = la cola cuando sueltas la tecla
+
+3. FILTRO Y SU ENVOLVENTE (celeste)
+   Corte = brillo. Resonancia = chillido en el corte.
+   Envolvente = cuánto se abre el brillo con cada nota (el "pluck").
+   La envolvente del filtro funciona igual que la de volumen, pero mueve el brillo.
+
+4. OSCILADORES Y MEZCLA
+   Onda: Seno, Triángulo, Sierra, Cuadrada, Pulso, Súper sierra (7 sierras), Órgano.
+   Sub = graves extra. Ruido = aire. FM = sonidos de campana, marimba y piano eléctrico.
+
+5. LFO: movimiento automático (vibrato, trémolo o filtro que se mueve).
+
+6. VOZ
+   Poli = acordes. Mono / Legato = una nota a la vez (ideal para 808 y leads).
+   Glide = deslizamiento entre notas (el slide del 808: toca ligado en Legato).
+   Fuerza = cuánto responde a lo fuerte que tocas.
+
+7. EFECTOS: chorus, eco sincronizado con el tempo de Logic y reverb.
+
+Arriba a la derecha: volumen general.
+Si mueves perillas y quieres volver al sonido original, vuelve a hacer clic en él.
+La rueda de modulación del teclado añade vibrato; la rueda de tono sube/baja 2 semitonos.
