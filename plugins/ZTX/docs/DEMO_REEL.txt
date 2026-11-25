@@ -1,0 +1,45 @@
+ZTX demo reel - each preset rendered offline for 4 s at 120 BPM (sequencer running + one MIDI note),
+followed by 0.4 s of silence. Timestamps:
+
+0:00.0  01 Elastic Boing
+0:04.4  02 Wet Rubber Pluck
+0:08.8  03 Stretched Membrane
+0:13.2  04 Pop Bubble Chain
+0:17.6  05 Squeaky Friction Toy
+0:22.0  06 Rubber Metal Hybrid
+0:26.4  07 Tick Colony
+0:30.8  08 Wooden Insects
+0:35.2  09 Seed Pod Shaker
+0:39.6  10 Micro Click Kit
+0:44.0  11 Clockwork Pulse
+0:48.4  12 Ashen Cloud
+0:52.8  13 Rust Fog
+0:57.2  14 Tar Pit Drone
+1:01.6  15 Underground Breath
+1:06.0  16 Black Static
+1:10.4  17 Broken Servo
+1:14.8  18 Digital Moss
+1:19.2  19 Insect Data
+1:23.6  20 Corrupted Water
+1:28.0  21 Stutter Organism
+1:32.4  22 Alien Bell
+1:36.8  23 Struck Pipe
+1:41.2  24 Tin Can Gamelan
+1:45.6  25 Scrap Gong
+1:50.0  26 Chain Rattle
+1:54.4  27 Rubber Sub
+1:58.8  28 Bouncing Bassline
+2:03.2  29 FM Growl Pit
+2:07.6  30 Wet Knock Bass
+2:12.0  31 Folded Elastic
+2:16.4  32 Melting Prism
+2:20.8  33 Barber Pole Swamp
+2:25.2  34 Spectral Cathedral
+2:29.6  35 Lysergic Dew
+2:34.0  36 Mycelium Choir
+2:38.4  37 Polymeter Engine
+2:42.8  38 Euclid Swamp
+2:47.2  39 Microhouse Engine
+2:51.6  40 Chaos Garden
+2:56.0  41 Broken Clock Choir
+3:00.4  42 Minimal Tick Loop

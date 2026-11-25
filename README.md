@@ -5,6 +5,7 @@ Plugins de audio propios para Logic Pro (Audio Unit) y otros DAW (VST3).
 | Plugin | Qué es |
 | --- | --- |
 | **Calor** | Distorsión multietapa: 3 etapas con 8 tipos de saturación, modo serie o por bandas, pad XY, LFO, envolvente y presets. |
+| **ZTX Organic Glitch Lab** | Instrumento experimental: 5 motores (goma, micro-glitch, granular, FM metálico, percusión orgánica), secuenciador generativo, matriz de modulación, 12 efectos y 42 presets. Descarga: `ZTX-Mac.zip` en Releases. |
 
 ## Descargar
 

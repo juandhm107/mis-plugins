@@ -1,0 +1,31 @@
+ZTX — ORGANIC GLITCH LAB  ·  Instalación en Mac (Logic Pro)
+=============================================================
+
+1. Abre el Finder y ve al menú  Ir > Ir a la carpeta...
+   Pega esto y pulsa Enter:
+
+       ~/Library/Audio/Plug-Ins/Components
+
+2. Arrastra a esa carpeta el archivo:
+
+       ZTX Organic Glitch Lab.component
+
+   (Opcional, para otros programas: arrastra "ZTX Organic Glitch Lab.vst3"
+    a  ~/Library/Audio/Plug-Ins/VST3 )
+
+3. Abre la app Terminal (Cmd + Espacio, escribe "Terminal", Enter),
+   pega esta línea y pulsa Enter. No muestra nada: es normal.
+
+       xattr -dr com.apple.quarantine ~/Library/Audio/Plug-Ins/Components/"ZTX Organic Glitch Lab.component"
+
+4. Abre Logic Pro > crea una pista de "Instrumento de software" >
+   en la ranura de instrumento elige:
+       AU Instruments > ZTX Lab > ZTX Organic Glitch Lab
+
+   Si no aparece: Logic Pro > Ajustes > Gestor de plug-ins >
+   busca ZTX > "Restablecer y volver a analizar la selección".
+
+5. Pestaña PRESETS > elige uno (p. ej. "Microhouse Engine") > dale Play en Logic.
+
+La app "ZTX Organic Glitch Lab.app" funciona sola, sin Logic (doble clic).
+Si macOS no la deja abrir: clic derecho > Abrir > Abrir.

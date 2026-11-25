@@ -1,0 +1,71 @@
+name: Compilar ZTX Organic Glitch Lab (Mac)
+
+on:
+  push:
+    branches: [ main, ztx ]
+    paths:
+      - 'plugins/ZTX/**'
+      - '.github/workflows/build-ztx.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    runs-on: macos-latest
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar
+        run: |
+          cmake -S . -B build \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_OSX_ARCHITECTURES=arm64 \
+            -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0
+
+      - name: Compilar ZTX (AU + VST3 + App)
+        run: cmake --build build --config Release --target ZTX_AU ZTX_VST3 ZTX_Standalone -j 4
+
+      - name: Firmar (ad-hoc) y validar con auval
+        run: |
+          ART=build/plugins/ZTX/ZTX_artefacts/Release
+          codesign --force --deep --sign - "$ART/AU/ZTX Organic Glitch Lab.component"
+          codesign --force --deep --sign - "$ART/VST3/ZTX Organic Glitch Lab.vst3"
+          codesign --force --deep --sign - "$ART/Standalone/ZTX Organic Glitch Lab.app"
+          mkdir -p ~/Library/Audio/Plug-Ins/Components
+          cp -R "$ART/AU/ZTX Organic Glitch Lab.component" ~/Library/Audio/Plug-Ins/Components/
+          killall -9 AudioComponentRegistrar 2>/dev/null || true
+          sleep 3
+          auval -v aumu Zogl Ztxl | tee auval.log
+          grep -q "AU VALIDATION SUCCEEDED" auval.log
+
+      - name: Empaquetar
+        run: |
+          ART=build/plugins/ZTX/ZTX_artefacts/Release
+          mkdir -p "dist/ZTX"
+          cp -R "$ART/AU/ZTX Organic Glitch Lab.component" dist/ZTX/
+          cp -R "$ART/VST3/ZTX Organic Glitch Lab.vst3" dist/ZTX/
+          cp -R "$ART/Standalone/ZTX Organic Glitch Lab.app" dist/ZTX/
+          cp plugins/ZTX/LEEME.txt plugins/ZTX/README.md dist/ZTX/
+          cd dist
+          ditto -c -k --keepParent ZTX ZTX-Mac.zip
+
+      - name: Guardar como artefacto
+        uses: actions/upload-artifact@v4
+        with:
+          name: ZTX-Mac
+          path: dist/ZTX-Mac.zip
+
+      - name: Publicar descarga (Releases)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="ztx-build-${{ github.run_number }}"
+          gh release create "$TAG" dist/ZTX-Mac.zip \
+            --target "${{ github.sha }}" \
+            --title "ZTX Organic Glitch Lab para Mac (versión ${{ github.run_number }})" \
+            --notes "Descarga **ZTX-Mac.zip**, descomprímelo y sigue las instrucciones de LEEME.txt." \
+            --latest
